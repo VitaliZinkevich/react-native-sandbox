@@ -37,7 +37,11 @@ export default class App extends Component {
         </Header>
         
         <Content >
-        
+        <View style={styles.half}>
+            <Text>
+              Тут экран
+            </Text>
+        </View>
         <View style={styles.half}>  
           <Button full light>
               <Text>1</Text>
@@ -61,7 +65,38 @@ export default class App extends Component {
             <Text>6</Text>
           </Button>
         </View>
+
+        <View style={styles.half}>
+          <Button full info>
+            <Text>7</Text>
+          </Button>
+          <Button full warning>
+            <Text>8</Text>
+          </Button>
+          <Button full danger>
+            <Text>9</Text>
+          </Button>
+        </View>
+
+        <View style={styles.half}>
+          <Button full info>
+            <Text>,</Text>
+          </Button>
+          <Button full warning>
+            <Text>0</Text>
+          </Button>
+          <Button full danger>
+            <Text>.</Text>
+          </Button>
+        </View>
+        
+        <Content >
+        <View style={styles.half}>
           
+        <Button full>
+            <Text>===</Text>
+          </Button>
+        </View>
 
         </Content>
       </Container>
@@ -78,7 +113,7 @@ const styles = StyleSheet.create({
   half: {
     flexDirection: 'row',
     alignSelf: 'stretch',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignContent: 'center',  
   }
 });
