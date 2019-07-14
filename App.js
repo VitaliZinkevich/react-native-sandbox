@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   View,
   Title,
@@ -16,22 +16,27 @@ import {
 
 } from 'native-base';
 
+import appStore from './mobx/store'
+
 import {
   StyleSheet,
 } from 'react-native';
 
 import { observer } from "mobx-react"
-import appStore from './mobx/store'
+
+import AppFooter from './src/Layout/AppFooter'
+import AppHeader from './src/Layout/AppHeader'
+import History from './src/CalcApp/History';
 
 let rows = [0,1,2,3,4];
-let buttons = ["C","<-","MC","MR",
-                "1","2","3","+",
-                "4","5","6","-",
-                "7","8","9","*",
-                ".","0","+/-","="];
 
- import AppFooter from './src/Layout/AppFooter'
- import AppHeader from './src/Layout/AppHeader'
+  
+let buttons = ["C","<-","MC","MR",
+"1","2","3","+",
+"4","5","6","-",
+"7","8","9","*",
+".","0","+/-","="];
+
 
 const styles = StyleSheet.create({
   container: {
@@ -65,59 +70,66 @@ const styles = StyleSheet.create({
       textAlignVertical :'center' 
   }
 });
+  const App = observer (()=>{
 
-let prepButtons = (row)=>{
-  let result = [];
-  for (let i = 0; i <= 3; i++) {
-    result.push(<Button 
-                    rounded
-                    large
-                    key={buttons[i]}
-                    style={styles.button}
-                    info 
-                    onPress={()=>{
-                      appStore.addOperation(row, i)}}>
-                  <Text style={styles.textButton}>{buttons[i]}</Text>
-                </Button>);
+  const store = useContext(appStore);
+  
+  let buttonsCopy = [...buttons];
+
+  let prepButtons = (row)=>{
+    let result = [];
+    for (let i = 0; i <= 3; i++) {
+      result.push(<Button 
+                      rounded
+                      large
+                      key={buttonsCopy[i]}
+                      style={styles.button}
+                      info 
+                      onPress={()=>{
+                        store.addOperation(row, i)}}>
+                    <Text style={styles.textButton}>{buttonsCopy[i]}</Text>
+                  </Button>);
+    }
+    buttonsCopy.splice (0,4);
+    return result;
   }
-  buttons.splice (0,4);
-  return result;
-}
-let rowsView = rows.map((row, index)=>{
-  return  <View key={row+row+""} style={styles.row}>  
-            {prepButtons(row)}
-          </View>
-});
+  let rowsView = rows.map((row, index)=>{
+    return  <View key={row+row+""} style={styles.row}>  
+              {prepButtons(row)}
+            </View>
+  });
 
- const App = observer (()=>{
-       
   return (
-    <Container>
-
+      <Container>
       <AppHeader></AppHeader>
-     
-      <Content contentContainerStyle={styles.container}>
-      
+
+      {store.currentScren === 'calc' ? (<Content contentContainerStyle={styles.container}>
       <View style={styles.actionView}>
         <Text style={{fontSize: 15, /*fontWeight: 400*/}}>
-          {appStore.action}
+          {store.action}
         </Text>
         <Text style={{fontSize: 15, color: 'red'}}>
-          {appStore.answer}
+          {store.answer}
         </Text>
       </View>
       <Text>
-      kanye west quote:{appStore.quote.quote} 
+        {/* kanye west quote:{store.quote.quote}  */}
+        {JSON.stringify (store)}
       </Text>
       <View style={styles.buttonsView}>
         {rowsView}
       </View>
-
+      </Content>) : (<Content contentContainerStyle={styles.container}>
+        <History></History>
+      </Content>)}
+      
       <AppFooter></AppFooter>
-      </Content>
 
-    </Container>
-  );
+      
+
+      </Container>
+   
+   );
 });
 
 export default App;

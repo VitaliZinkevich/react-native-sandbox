@@ -1,3 +1,4 @@
+import { createContext } from 'react'
 import { decorate, observable, action} from 'mobx'
 import { task } from 'mobx-task'
 
@@ -7,11 +8,19 @@ let buttonsText = ["C","<-","MC","MR",
                     "7","8","9","*",
                     ".","0","+/-","="];
 import {configure} from "mobx"
-configure({enforceActions: 'always'})
+//configurWe({enforceActions: 'always'})
 //configure({ enforceActions: "observed" })
 
 class Store  {
 
+  currentScren ='hist'
+  changeCurrentScren =  (screen) => {
+   if (screen === 'calc') {
+    this.currentScren = 'calc'
+   } else {
+    this.currentScren = 'hist'
+   }
+  }
   action =  []
   answer = null
   quote =  ''
@@ -81,7 +90,7 @@ class Store  {
           let answer = eval (this.action.join(''));
           this.operations.push(
             {action: this.action, 
-              answer: this.answer, 
+              answer: answer, 
               date: Date.now()})
           this.action=[];
           this.answer = answer;
@@ -105,11 +114,13 @@ class Store  {
 }
 
 decorate(Store, {
+  currentScren: observable,
   answer: observable,
   action: observable,
   quote: observable,
   operations: observable,
-
+  
+  changeCurrentScren: action,
   addOperation: action,
   getKennyWestQuote:action
 });
@@ -118,4 +129,4 @@ let appStore = new Store();
 appStore.getKennyQuote();
 
 
-export default appStore
+export default createContext (appStore);

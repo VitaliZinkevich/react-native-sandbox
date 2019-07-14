@@ -1,4 +1,5 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import appStore from '../../mobx/store'
 import {
     View,
     Title,
@@ -15,22 +16,16 @@ import {
     FooterTab
   } from 'native-base';
 
-// import {StyleSheet} from 'react-native'
-
-//   const styles = StyleSheet.create({
-//     footer: {
-//       backgroundColor: 'red'
-//     },
-//   });
   
 const AppFooter = () => {
+  let { changeCurrentScren } = useContext(appStore);
     return (
       <Footer >
-      <FooterTab style={{backgroundColor	:'#CCFFFF'}}>
-        <Button vertical>
+      <FooterTab style={{backgroundColor	:'#CCFFFF'}} >
+        <Button vertical onPress={()=>{changeCurrentScren('calc')}}>
           <Text style={{color	:'black'}}>Calculator</Text>
         </Button>
-        <Button vertical>
+        <Button vertical onPress={()=>{changeCurrentScren('hist')}}>
           <Text style={{color	:'black'}}>History</Text>
         </Button>
       </FooterTab>

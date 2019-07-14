@@ -1,4 +1,8 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import appStore from '../../mobx/store'
+
+import { observer } from "mobx-react"
+
 import {
     View,
     Title,
@@ -15,12 +19,17 @@ import {
     FooterTab
   
   } from 'native-base';
-const History = props => {
-    return (
+
+const History = observer(() => {
+    const { operations } = useContext(appStore);
+        return (
         <View>
             <Text>History</Text>
+           { operations.map (operation=>{
+                return <Text key={operation.date}>{JSON.stringify(operation)}</Text>;
+            })}
         </View>
     )
-}
+})
 
 export default History
