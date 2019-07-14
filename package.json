@@ -10,6 +10,7 @@
   "dependencies": {
     "mobx": "^5.11.0",
     "mobx-react": "^6.1.1",
+    "mobx-task": "^1.0.3",
     "native-base": "^2.12.1",
     "react": "16.8.6",
     "react-native": "0.60.3"

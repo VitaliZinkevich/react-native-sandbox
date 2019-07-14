@@ -24,7 +24,7 @@ import { observer } from "mobx-react"
 import appStore from './mobx/store'
 
 let rows = [0,1,2,3,4];
-let buttons = ["C","CA","<-","MR",
+let buttons = ["C","<-","MC","MR",
                 "1","2","3","+",
                 "4","5","6","-",
                 "7","8","9","*",
@@ -73,7 +73,7 @@ let prepButtons = (row)=>{
                     rounded
                     large
                     key={buttons[i]}
-                     style={styles.button}
+                    style={styles.button}
                     info 
                     onPress={()=>{
                       appStore.addOperation(row, i)}}>
@@ -106,7 +106,9 @@ let rowsView = rows.map((row, index)=>{
           {appStore.answer}
         </Text>
       </View>
-
+      <Text>
+      kanye west quote:{appStore.quote.quote} 
+      </Text>
       <View style={styles.buttonsView}>
         {rowsView}
       </View>
