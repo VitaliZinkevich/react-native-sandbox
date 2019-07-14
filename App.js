@@ -1,6 +1,4 @@
-import React, {
-  Component
-} from 'react';
+import React from 'react';
 import {
   View,
   Title,
@@ -12,226 +10,112 @@ import {
   Left,
   Icon,
   Right,
-  Body
+  Body,
+  Footer,
+  FooterTab
+
 } from 'native-base';
 
 import {
   StyleSheet,
 } from 'react-native';
 
-export default class App extends Component {
-  render() {
-    return (
-      <Container>
+import { observer } from "mobx-react"
+import appStore from './mobx/store'
 
-        <Header>
-          <Left>
-            <Button transparent>
-              <Icon name='menu' />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Header</Title>
-          </Body>
-          <Right />
-        </Header>
-        
-        <Content >
-        <View style={styles.half}>
-            <Text>
-              Тут экран
-            </Text>
-        </View>
-        <View style={styles.half}>  
-          <Button full light>
-              <Text>1</Text>
-            </Button>
-            <Button full>
-              <Text>2</Text>
-            </Button>
-            <Button full success>
-              <Text>3</Text>
-          </Button>
-        </View>  
-          
-        <View style={styles.half}>
-          <Button full info>
-            <Text>4</Text>
-          </Button>
-          <Button full warning>
-            <Text>5</Text>
-          </Button>
-          <Button full danger>
-            <Text>6</Text>
-          </Button>
-        </View>
+let rows = [0,1,2,3,4];
+let buttons = ["C","CA","<-","MR",
+                "1","2","3","+",
+                "4","5","6","-",
+                "7","8","9","*",
+                ".","0","+/-","="];
 
-        <View style={styles.half}>
-          <Button full info>
-            <Text>7</Text>
-          </Button>
-          <Button full warning>
-            <Text>8</Text>
-          </Button>
-          <Button full danger>
-            <Text>9</Text>
-          </Button>
-        </View>
-
-        <View style={styles.half}>
-          <Button full info>
-            <Text>,</Text>
-          </Button>
-          <Button full warning>
-            <Text>0</Text>
-          </Button>
-          <Button full danger>
-            <Text>.</Text>
-          </Button>
-        </View>
-        
-        <Content >
-        <View style={styles.half}>
-          
-        <Button full>
-            <Text>===</Text>
-          </Button>
-        </View>
-
-        </Content>
-      </Container>
-    );
-  }
-}
+ import AppFooter from './src/Layout/AppFooter'
+ import AppHeader from './src/Layout/AppHeader'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignContent: 'center',
   },
-  half: {
+  row: {
     flexDirection: 'row',
     alignSelf: 'stretch',
     justifyContent: 'space-around',
-    alignContent: 'center',  
+    alignContent: 'center', 
+    alignItems: 'center' 
+  },
+  footer:{
+    flex: 0
+  },
+  actionView: {
+    flex: 0.2,
+    backgroundColor: '#add8e6'
+  },
+  buttonsView:{
+    flex: 1,
+    justifyContent:'space-around'
+  },
+  textButton: {
+      width: 70,
+      height: 70,
+      textAlign: 'center',
+      alignContent: 'center',
+      textAlignVertical :'center' 
   }
 });
 
+let prepButtons = (row)=>{
+  let result = [];
+  for (let i = 0; i <= 3; i++) {
+    result.push(<Button 
+                    rounded
+                    large
+                    key={buttons[i]}
+                     style={styles.button}
+                    info 
+                    onPress={()=>{
+                      appStore.addOperation(row, i)}}>
+                  <Text style={styles.textButton}>{buttons[i]}</Text>
+                </Button>);
+  }
+  buttons.splice (0,4);
+  return result;
+}
+let rowsView = rows.map((row, index)=>{
+  return  <View key={row+row+""} style={styles.row}>  
+            {prepButtons(row)}
+          </View>
+});
 
-// /**
-//  * Sample React Native App
-//  * https://github.com/facebook/react-native
-//  *
-//  * @format
-//  * @flow
-//  */
+ const App = observer (()=>{
+       
+  return (
+    <Container>
 
+      <AppHeader></AppHeader>
+     
+      <Content contentContainerStyle={styles.container}>
+      
+      <View style={styles.actionView}>
+        <Text style={{fontSize: 15, /*fontWeight: 400*/}}>
+          {appStore.action}
+        </Text>
+        <Text style={{fontSize: 15, color: 'red'}}>
+          {appStore.answer}
+        </Text>
+      </View>
 
- 
-// import React, {Fragment} from 'react';
-// import {
-//   SafeAreaView,
-//   StyleSheet,
-//   ScrollView,
-//   View,
-//   Text,
-//   StatusBar,
-// } from 'react-native';
+      <View style={styles.buttonsView}>
+        {rowsView}
+      </View>
 
-// import {
-//   Header,
-//   LearnMoreLinks,
-//   Colors,
-//   DebugInstructions,
-//   ReloadInstructions,
-// } from 'react-native/Libraries/NewAppScreen';
+      <AppFooter></AppFooter>
+      </Content>
 
-// const App = () => {
-//   return (
-//     <Fragment>
-//       <StatusBar barStyle="dark-content" />
-//       <SafeAreaView>
-//         <ScrollView
-//           contentInsetAdjustmentBehavior="automatic"
-//           style={styles.scrollView}>
-//           <Header />
-//           {global.HermesInternal == null ? null : (
-//             <View style={styles.engine}>
-//               <Text style={styles.footer}>Engine: Hermes</Text>
-//             </View>
-//           )}
-//           <View style={styles.body}>
-//             <View style={styles.sectionContainer}>
-//               <Text style={styles.sectionTitle}>Step One</Text>
-//               <Text style={styles.sectionDescription}>
-//                 Edit <Text style={styles.highlight}>App.js</Text> to change this
-//                 screen and then come back to see your edits.
-//               </Text>
-//             </View>
-//             <View style={styles.sectionContainer}>
-//               <Text style={styles.sectionTitle}>See Your Changes</Text>
-//               <Text style={styles.sectionDescription}>
-//                 <ReloadInstructions />
-//               </Text>
-//             </View>
-//             <View style={styles.sectionContainer}>
-//               <Text style={styles.sectionTitle}>Debug</Text>
-//               <Text style={styles.sectionDescription}>
-//                 <DebugInstructions />
-//               </Text>
-//             </View>
-//             <View style={styles.sectionContainer}>
-//               <Text style={styles.sectionTitle}>Learn More</Text>
-//               <Text style={styles.sectionDescription}>
-//                 Read the docs to discover what to do next:
-//               </Text>
-//             </View>
-//             <LearnMoreLinks />
-//           </View>
-//         </ScrollView>
-//       </SafeAreaView>
-//     </Fragment>
-//   );
-// };
+    </Container>
+  );
+});
 
-// const styles = StyleSheet.create({
-//   scrollView: {
-//     backgroundColor: Colors.lighter,
-//   },
-//   engine: {
-//     position: 'absolute',
-//     right: 0,
-//   },
-//   body: {
-//     backgroundColor: Colors.white,
-//   },
-//   sectionContainer: {
-//     marginTop: 32,
-//     paddingHorizontal: 24,
-//   },
-//   sectionTitle: {
-//     fontSize: 24,
-//     fontWeight: '600',
-//     color: Colors.black,
-//   },
-//   sectionDescription: {
-//     marginTop: 8,
-//     fontSize: 18,
-//     fontWeight: '400',
-//     color: Colors.dark,
-//   },
-//   highlight: {
-//     fontWeight: '700',
-//   },
-//   footer: {
-//     color: Colors.dark,
-//     fontSize: 12,
-//     fontWeight: '600',
-//     padding: 4,
-//     paddingRight: 12,
-//     textAlign: 'right',
-//   },
-// });
-
-// export default App;
+export default App;
