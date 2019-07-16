@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
         </Text>
       </View>
       <Text>
-        kanye west quote:{store.quote.quote} 
-        {/* {JSON.stringify (store)} */}
+        {/* kanye west quote:{store.quote.quote}  */}
+        {JSON.stringify (store)}
       </Text>
       <View style={styles.buttonsView}>
         {rowsView}

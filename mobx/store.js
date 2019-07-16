@@ -2,11 +2,14 @@ import { createContext } from 'react'
 import { decorate, observable, action} from 'mobx'
 import { task } from 'mobx-task'
 
+import {AsyncStorage} from 'react-native';
+
 let buttonsText = ["C","<-","MC","MR",
                     "1","2","3","+",
                     "4","5","6","-",
                     "7","8","9","*",
                     ".","0","+/-","="];
+                    
 import {configure} from "mobx"
 //configurWe({enforceActions: 'always'})
 //configure({ enforceActions: "observed" })
@@ -14,6 +17,7 @@ import {configure} from "mobx"
 class Store  {
 
   currentScren ='calc'
+  
   changeCurrentScren =  (screen) => {
    if (screen === 'calc') {
     this.currentScren = 'calc'
@@ -21,15 +25,50 @@ class Store  {
     this.currentScren = 'hist'
    }
   }
+
+
   action =  []
   answer = null
   quote =  ''
-  operations=[]
+  operations= []
+  debugger = undefined
+
   getKennyQuote = task (async () => {
     await fetch('https://api.kanye.rest')
       .then(r => r.json())
       .then(action(answer => this.quote = answer))
-  })
+  });
+
+  storeData = async (key, item) => {
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify (item));
+  } catch (error) {
+    this.debugger = JSON.stringify (error);
+  }
+};
+
+retrieveData = async (key, item) => {
+  try {
+    const value = await AsyncStorage.getItem(`${key}`);
+    if (value) {
+
+      let parsed = JSON.parse (value);
+      if (!!parsed && parsed.length > 0 && this.operations.length === 0) {
+        this.operations = parsed;
+      }
+      this.debugger = value
+      this.storeData('operations', this.operations);
+      
+    } else {
+      this.debugger = value;
+      this.storeData('operations', []);
+    }
+  } catch (error) {
+      // Error retrieving data
+      // no storage at all
+  }
+  
+};
 
 
 
@@ -42,49 +81,21 @@ class Store  {
 
       switch(action) {
         case '1':
-            this.action.push (action);
-            break;
         case '2':
-        this.action.push (action);
-        break;
         case '3':
-        this.action.push (action);
-        break;
         case '4':
-          this.action.push (action);
-        break;
         case '5':
-          this.action.push (action);
-          break;
         case '6':
-          this.action.push (action);
-          break;
         case '7':
-          this.action.push (action);
-          break;
         case '8':
-          this.action.push (action);
-          break;
         case '9':
-          this.action.push (action);
-          break;
         case '0':
-          this.action.push (action);
-          break;
         case '.':
-          this.action.push (action);
-          break;
         case '-':
-          this.action.push (action);
-          break;
         case '+':
-          this.action.push (action);
-          break;
         case '*':
-          this.action.push (action);
-          break;
         case '/':
-          this.action.push (action);
+          this.action.push(action);
           break;
         case '=':
           let answer = eval (this.action.join(''));
@@ -92,6 +103,9 @@ class Store  {
             {action: this.action, 
               answer: answer, 
               date: Date.now()})
+          
+          this.retrieveData('operations');
+          
           this.action=[];
           this.answer = answer;
         break;
@@ -119,6 +133,7 @@ decorate(Store, {
   action: observable,
   quote: observable,
   operations: observable,
+  debugger: observable,
   
   changeCurrentScren: action,
   addOperation: action,
@@ -127,6 +142,7 @@ decorate(Store, {
 
 let appStore = new Store();
 appStore.getKennyQuote();
-
+appStore.retrieveData('operations');
+//AsyncStorage.clear()
 
 export default createContext (appStore);
