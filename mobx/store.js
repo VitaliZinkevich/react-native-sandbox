@@ -142,7 +142,7 @@ decorate(Store, {
 
 let appStore = new Store();
 appStore.getKennyQuote();
-appStore.retrieveData('operations');
+//appStore.retrieveData('operations');
 //AsyncStorage.clear()
 
 export default createContext (appStore);

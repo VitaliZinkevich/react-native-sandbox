@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import appStore from '../../mobx/store'
+import appStore from '../mobx/store'
 
 import { observer } from "mobx-react"
 
@@ -17,8 +17,7 @@ import {
     Body,
     Footer,
     FooterTab
-  
-  } from 'native-base';
+    } from 'native-base';
 
 const History = observer(() => {
     const { operations } = useContext(appStore);
