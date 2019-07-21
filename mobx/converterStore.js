@@ -1,28 +1,28 @@
 import { createContext } from 'react'
-import { observable, action, observer} from 'mobx-react'
+import { observable, action, observer} from 'mobx'
 import { task } from 'mobx-task'
 
 import {AsyncStorage} from 'react-native';
 
-import {configure} from "mobx"
+import {configureonValueChange} from "mobx"
 //configurWe({enforceActions: 'always'})
 //configure({ enforceActions: "observed" })
 
 
 class ConverterStore  {
 
-  // @observable values = [
-  //   {value: 100, curency: 'USD'}, 
-  //   {value: 100, curency: 'USD'}, 
-  //   {value: 100, curency: 'USD'}]
+  @observable values = [
+    100, 400, 900
+    ]
 
-  // @action onValueChange = (value, index)=>{
-  //     console.log(value, index)
-  // }
+  @action onValueChange = (val, index)=>{
+      this.values[index]= val;
+  }
 
-  // @action onTextCange = (event)=>{
-  //   console.log(event)
-  // }
+  @action onTextCange = (event, index)=>{
+    console.log(event, index);
+    this.values[index] = event;
+  }
   
 
 }

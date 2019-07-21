@@ -26,32 +26,34 @@ import AppHeader from './Layout/AppHeader'
 import converterStore from '../mobx/converterStore'
 
 
-const Converter = () => {
+const Converter = observer ( () => {
 
-    // const {values, /*onValueChange, onTextCange*/} = useContext(converterStore);
-
-    let inputCount = [0, 1, 2];
-    let inputs = inputCount.map(inputNumber => (
-        <PickerValue
-            key={inputNumber}
-            //value = {values[inputNumber]}
-            index={inputNumber}
-            // onValueChange={onValueChange}
-            // onTextCange={onTextCange}
-        ></PickerValue>
-    ));
-
-
-    return (
-        <Container>
-        <AppHeader></AppHeader>
-        
-        <Content>
-            {inputs}
-        </Content>
-        
-        </Container>
-    )
-}
+        let {values, onValueChange, onTextCange} = useContext(converterStore);
+        values
+        let inputCount = [0, 1, 2];
+        let inputs = inputCount.map(inputNumber => (
+            <PickerValue
+                key={inputNumber}
+                value = {values[inputNumber]}
+                index={inputNumber}
+                onValueChange={onValueChange}
+                onTextCange={onTextCange}
+            ></PickerValue>
+        ));
+    
+    
+        return (
+            <Container>
+            <AppHeader></AppHeader>
+            
+            <Content>
+                {inputs}
+                <Text>{JSON.stringify(values)}</Text>
+            </Content>
+            
+            </Container>
+        )
+    }
+)
 
 export default Converter

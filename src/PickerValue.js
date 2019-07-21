@@ -7,18 +7,21 @@ const PickerValue = (props) =>  {
  
    return (
       <View style={styles.container}>
-
+            <Text>{JSON.stringify(props.value)}</Text>
             <TextInput 
                style={styles.text} 
-               // value={props.value}
+               defaultValue={props.value+''}
+               onChangeText={(text)=>{props.onTextCange(text, props.index )}}
                />
 
             <Picker  style={styles.select} 
-                  // selectedValue = {props.value.curency} 
-                  // onValueChange = {props.onValueChange( value, index )}
-                  // onTextCange={props.onTextCange(value, index)}
+                  onValueChange = {(value)=>{props.onValueChange( value, props.index )}}
+                  selectedValue={props.value+''}
                   >
             <Picker.Item label = "Steve" value = "steve" />
+            <Picker.Item label = "900" value = "900" />
+            <Picker.Item label = "400" value = "400" />
+            <Picker.Item label = "100" value = "100" />
             <Picker.Item label = "Ellen" value = "ellen" />
             <Picker.Item label = "Maria" value = "maria" />
          </Picker>
