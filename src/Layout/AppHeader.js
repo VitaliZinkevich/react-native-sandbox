@@ -1,4 +1,5 @@
 import  React  from 'react';
+import {Actions} from 'react-native-router-flux';
 import {
     View,
     Title,
@@ -24,10 +25,17 @@ import {
       </Left>
       <Body>
         <Title>CalcApp</Title>
+        <Button 
+          
+          onPress={Actions.cacl}>
+          <Text>to calc</Text>
+        </Button>
       </Body>
       <Right />
     </Header>
     );
   }
+
+  // Actions
 
   export default AppHeader
