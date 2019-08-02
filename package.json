@@ -14,7 +14,9 @@
     "native-base": "^2.12.1",
     "react": "16.8.6",
     "react-native": "0.60.3",
-    "react-native-router-flux": "^4.0.6"
+    "react-native-drawer": "^2.5.1",
+    "react-native-router-flux": "^4.0.6",
+    "react-native-sidebar": "^0.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",

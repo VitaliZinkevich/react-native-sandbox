@@ -24,6 +24,7 @@ import {
 import AppHeader from './Layout/AppHeader'
 
 import converterStore from '../mobx/converterStore'
+import AppSidebar from './Layout/AppSidebar';
 
 
 const Converter = observer ( () => {
@@ -47,6 +48,7 @@ const Converter = observer ( () => {
             <AppHeader></AppHeader>
             
             <Content>
+            <AppSidebar></AppSidebar>
                 {inputs}
                 <Text>{JSON.stringify(values)}</Text>
             </Content>

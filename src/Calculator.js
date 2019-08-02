@@ -5,6 +5,7 @@ import {
   Container,
   Header,
   Content,
+
   Button,
   Text,
   Left,
@@ -16,6 +17,7 @@ import {
 
 } from 'native-base';
 
+import   {TouchableOpacity} from 'react-native'
 import appStore from '../mobx/store'
 
 import {
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
   let prepButtons = (row)=>{
     let result = [];
     for (let i = 0; i <= 3; i++) {
-      result.push(<Button 
+      result.push(<TouchableOpacity  
                       rounded
                       large
                       key={buttonsCopy[i]}
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
                       onPress={()=>{
                         store.addOperation(row, i)}}>
                     <Text style={styles.textButton}>{buttonsCopy[i]}</Text>
-                  </Button>);
+                  </TouchableOpacity >);
     }
     buttonsCopy.splice (0,4);
     return result;

@@ -1,4 +1,4 @@
-import  React  from 'react';
+import  React, { useContext }  from 'react';
 import {Actions} from 'react-native-router-flux';
 import {
     View,
@@ -14,14 +14,23 @@ import {
     Body
   } from 'native-base';
 
+  import   {TouchableOpacity} from 'react-native'
+  import navigationStore from '../../mobx/navagionStore'
+
+  // let store =navigationStore;
 
   const AppHeader = () => {
+    
+    console.log(navigationStore)
+
     return (
       <Header>
       <Left>
-        <Button transparent>
+        <TouchableOpacity
+          onPress={navigationS.sideBarOpen()}
+        >
           <Icon name='menu' />
-        </Button>
+        </TouchableOpacity>
       </Left>
       <Body>
         <Title>CalcApp</Title>
